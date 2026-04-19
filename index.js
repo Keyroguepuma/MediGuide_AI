@@ -1,6 +1,9 @@
+//Load libraries
 const express = require('express');
 const hbs = require('express-handlebars');
+const {getMedicineInfo} = require("./openservice");
 require('dotenv').config();
+
 
 //Set up the variables
 const app = express();
@@ -32,14 +35,17 @@ app.get('/', (req, res) => {
 })
 
 //Getting response from the home page
-app.post('/input', (req, res) => {
+app.post('/input', async (req, res) => {
+    
+    //Get user input
+    const medicine = req.body.medicineInput;
+    console.log(medicine);
 
-    console.log(req.body.medicineInput);
+    //Call the function that does the AI processing
+    const result = await getMedicineInfo(medicine);
 
-    res.send("Read input");
-
-    /*Here we are going to call get medicine info from openservice.js
-    and then console.log it test it first*/
+    //Return the result
+    res.json(result);
 })
 
 //Start the server
