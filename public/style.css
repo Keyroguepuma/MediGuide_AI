@@ -1,0 +1,153 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Body background */
+body {
+  background: linear-gradient(to bottom, #f5f5f5, #b7d7c0);
+  min-height: 100vh;
+}
+
+/* Main container */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto;
+  border: 2px solid #333;
+  background: #f7f7f7;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 2px solid #333;
+}
+
+/* Logo section */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo span {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Disclaimer bubble */
+.disclaimer {
+  background: black;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: 13px;
+}
+
+/* Nav buttons */
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links button {
+  border: 2px solid #333;
+  background: transparent;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* Active button */
+.nav-links .active {
+  background: #b7e4c7;
+}
+
+/* Hover */
+.nav-links button:hover {
+  background: #d8f3dc;
+}
+
+/* Hero section */
+.hero {
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Small heading */
+.hero h2 {
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+/* Big title */
+.hero h1 {
+  font-size: 64px;
+  font-weight: 900;
+  letter-spacing: 4px;
+}
+
+/* Right side text */
+.hero-text {
+  margin-top: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-text p {
+  max-width: 300px;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Bottom spacing */
+.footer-space {
+  height: 80px;
+  border-top: 2px solid #333;
+  margin-top: 40px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 900px) {
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .hero-text {
+    justify-content: center;
+  }
+
+  .hero-text p {
+    text-align: center;
+  }
+}
+
+@media (max-width: 500px) {
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

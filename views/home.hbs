@@ -1,9 +1,43 @@
 <div class="container">
 
-    <form action="/input" method="POST">
-        <label for="medicineInput">Enter Medicine</label>
-        <input type="text" name="medicineInput"/>
-        
+  <div class="navbar">
+    <div class="logo">
+      <span>MEDIGUIDE AI</span>
+    </div>
+
+    <div class="disclaimer">
+      MediGuide is not a real doctor, please consult medical professionals if it is serious.
+    </div>
+
+    <div class="nav-links">
+      <button class="active">HOME</button>
+      <button>ABOUT US</button>
+      <button>Q&A</button>
+      <button>CONTACT</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h2>WELCOME TO</h2>
+    <h1>MEDIGUIDE AI</h1>
+
+    <div class="hero-text">
+      <p>PLEASE ASK A QUESTION RELATED TO MEDICAL NEEDS TO START...</p>
+    </div>
+
+    <!-- INPUT AREA -->
+    <form action="/input" method="POST" style="margin-top: 30px;">
+      <input 
+        type="text" 
+        name="medicineInput" 
+        placeholder="Enter Medicine..."
+        style="padding: 10px; width: 300px;"
+      >
+      <button type="submit">Ask</button>
     </form>
+
+  </div>
+
+  <div class="footer-space"></div>
 
 </div>

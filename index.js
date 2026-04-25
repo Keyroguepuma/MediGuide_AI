@@ -7,7 +7,7 @@ require('dotenv').config();
 
 //Set up the variables
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 //For CSS
 app.use(express.static('public'));
