@@ -26,18 +26,52 @@
     </div>
 
     <!-- INPUT AREA -->
-    <form action="/input" method="POST" style="margin-top: 30px;">
+    <form action="/input" method="POST" style="margin-top: 30px;" id="medicineForm">
       <input 
         type="text" 
-        name="medicineInput" 
+        name="medicineInput"
+        id="medicineInput" 
         placeholder="Enter Medicine..."
         style="padding: 10px; width: 300px;"
       >
       <button type="submit">Ask</button>
     </form>
 
+    
+    <p id="output"></p> <!--Placeholder for the output information -->
+
   </div>
 
   <div class="footer-space"></div>
 
 </div>
+
+<script>
+
+  document.getElementById('medicineForm').addEventListener('submit', async function(e){
+    
+    //Prevents loading the Page
+    e.preventDefault();
+
+    const medicine = document.getElementById('medicineInput').value;
+    
+    //Get the information from the backend
+    const res = await fetch('/input', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ medicineInput: medicine })
+  });
+
+  //Get the medicine JSON output from the AI
+  const data = await res.json();
+  console.log(data);
+
+  //Use getElementByID to fill in the frontend. The console shows
+  //the information to show the user
+
+  document.getElementById("output").textContent = data.usedFor[1];
+
+  });
+
+
+</script>

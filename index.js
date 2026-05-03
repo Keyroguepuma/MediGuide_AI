@@ -27,6 +27,7 @@ app.set('views', './views');
 
 //To get user data
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //Home page
 app.get('/', (req, res) => {
@@ -44,7 +45,8 @@ app.post('/input', async (req, res) => {
     //Call the function that does the AI processing
     const result = await getMedicineInfo(medicine);
 
-    //Return the result
+    //This will send it to the front end
+    console.log(result);
     res.json(result);
 })
 
