@@ -37,21 +37,86 @@ app.get('/', (req, res) => {
 
 //Getting response from the home page
 app.post('/input', async (req, res) => {
-    
-    //Get user input
-    const medicine = req.body.medicineInput;
-    console.log(medicine);
+  try {
+    // Get user input
+    const userInput = req.body.medicineInput;
 
-    //Call the function that does the AI processing
-    const result = await getMedicineInfo(medicine);
+    // 1. Check empty input
+    if (!userInput || userInput.trim() === "") {
+      return res.status(400).json({
+        error: "Please enter a medicine name."
+      });
+    }
 
-    //This will send it to the front end
-    console.log(result);
+    const cleanedInput = userInput.trim();
+    const lowerInput = cleanedInput.toLowerCase();
+
+    // 2. Limit input length
+    if (cleanedInput.length > 120) {
+      return res.status(400).json({
+        error: "Input too long. Please enter a short sentence or medicine name."
+      });
+    }
+
+    // 3. Make sure input contains letters
+    if (!/[a-zA-Z]/.test(cleanedInput)) {
+      return res.status(400).json({
+        error: "Invalid input. Please enter a medicine name."
+      });
+    }
+
+    // 4. Block unsafe/unrelated words
+    const blockedWords = ["bomb", "weapon", "kill", "suicide", "overdose"];
+
+    if (blockedWords.some(word => lowerInput.includes(word))) {
+      return res.status(400).json({
+        error: "Please enter a medication-related query only."
+      });
+    }
+
+    // 5. Detect medicine name from input
+    const medicineList = [
+      "tylenol", "acetaminophen",
+      "ibuprofen", "advil", "motrin",
+      "aspirin", "aleve", "naproxen",
+      "benadryl", "diphenhydramine",
+      "zyrtec", "cetirizine",
+      "claritin", "loratadine",
+      "amoxicillin", "metformin",
+      "atorvastatin", "lisinopril",
+      "omeprazole", "tums", "pepto"
+    ];
+
+    const detectedMedicine = medicineList.find(med =>
+      lowerInput.includes(med)
+    );
+
+    // 6. If no medicine found → reject
+    if (!detectedMedicine) {
+      return res.status(400).json({
+        error: "Please enter a valid medicine name or a sentence containing one."
+      });
+    }
+
+    console.log("User input:", cleanedInput);
+    console.log("Detected medicine:", detectedMedicine);
+
+    // 7. Call AI ONLY with clean medicine name
+    const result = await getMedicineInfo(detectedMedicine);
+
+    //Send result to frontend
     res.json(result);
-})
+
+  } catch (error) {
+    console.error("Error in /input route:", error);
+
+    res.status(500).json({
+      error: "Something went wrong. Please try again."
+    });
+  }
+});
 
 //Start the server
 app.listen(port, () => {
-
-    console.log(`Listening app on port ${port}`);
-})
+  console.log(`Listening app on port ${port}`);
+});
