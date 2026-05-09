@@ -14,15 +14,11 @@ Do not prescribe.
 Do not say the user should take the medicine.
 Do not provide dosage instructions beyond general caution.
 
-Return valid JSON in this exact format:
-{
-  "medicineName": "",
-  "usedFor": [],
-  "commonSideEffects": [],
-  "importantWarnings": [],
-  "simpleExplanation": "",
-  "safetyNote": ""
-}
+In the response mention the medicine name, used for, common side effects
+important warning simple explanation and a safetynote
+
+give the response as a chatbot
+
 
 Medicine: ${medicine}
 `;
@@ -34,19 +30,8 @@ Medicine: ${medicine}
 
  const text = response.output[0].content[0].text;
 
-  try {
-    return JSON.parse(text);
-  } catch (err) {
-    return {
-      medicineName: medicine,
-      usedFor: [],
-      commonSideEffects: [],
-      importantWarnings: [],
-      simpleExplanation: text,
-      safetyNote:
-        "This information is for education only and is not a substitute for professional medical advice.",
-    };
-  }
+ return text;
+
 }
 
 
