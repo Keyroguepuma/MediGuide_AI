@@ -44,7 +44,12 @@
       </div>
 
       <!-- INPUT AREA -->
+      
       <form id="chatForm" class="chat-input-area">
+
+        <button type="button" id="newChat">
+          New Chat
+        </button>
 
         <input
           type="text"
@@ -70,7 +75,7 @@
 
 <!-- JAVASCRIPT -->
 <script>
-
+  const newChat = document.getElementById("newChat");
   const chatForm = document.getElementById("chatForm");
   const chatBox = document.getElementById("chatBox");
   const medicineInput = document.getElementById("medicineInput");
@@ -79,6 +84,13 @@
   document.getElementById("heroSection");
 
 let chatStarted = false;
+
+newChat.addEventListener("click", async function(event){
+
+  console.log("The new chat button has been clicked");
+
+  window.location.reload();
+})
 
 
   chatForm.addEventListener("submit", async function(event) {

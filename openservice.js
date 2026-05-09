@@ -14,11 +14,11 @@ Do not prescribe.
 Do not say the user should take the medicine.
 Do not provide dosage instructions beyond general caution.
 
+
 In the response mention the medicine name, used for, common side effects
 important warning simple explanation and a safetynote
 
 give the response as a chatbot
-
 
 Medicine: ${medicine}
 `;
