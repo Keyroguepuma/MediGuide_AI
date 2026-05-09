@@ -105,7 +105,12 @@ app.post('/input', async (req, res) => {
     const result = await getMedicineInfo(detectedMedicine);
 
     //Send result to frontend
-    res.json(result);
+    // res.json(result); - This line was creating the limited chat
+
+    // Added this line for it to fully show the result via chat.
+    res.json({
+  reply: result
+});
 
   } catch (error) {
     console.error("Error in /input route:", error);

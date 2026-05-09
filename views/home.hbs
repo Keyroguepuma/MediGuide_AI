@@ -1,6 +1,8 @@
 <div class="container">
 
+  <!-- NAVBAR -->
   <div class="navbar">
+
     <div class="logo">
       <span>MEDIGUIDE AI</span>
     </div>
@@ -15,9 +17,12 @@
       <button>Q&A</button>
       <button>CONTACT</button>
     </div>
+
   </div>
 
+  <!-- HERO SECTION -->
   <div class="hero">
+
     <h2>WELCOME TO</h2>
     <h1>MEDIGUIDE AI</h1>
 
@@ -25,20 +30,37 @@
       <p>PLEASE ASK A QUESTION RELATED TO MEDICAL NEEDS TO START...</p>
     </div>
 
-    <!-- INPUT AREA -->
-    <form action="/input" method="POST" style="margin-top: 30px;" id="medicineForm">
-      <input 
-        type="text" 
-        name="medicineInput"
-        id="medicineInput" 
-        placeholder="Enter Medicine..."
-        style="padding: 10px; width: 300px;"
-      >
-      <button type="submit">Ask</button>
-    </form>
+    <!-- CHAT CONTAINER -->
+    <div class="chat-container">
 
-    
-    <p id="output"></p> <!--Placeholder for the output information -->
+      <!-- CHAT MESSAGES -->
+      <div class="chat-box" id="chatBox">
+
+        <!-- BOT MESSAGE -->
+        <div class="message bot-message">
+          Hello! Ask me anything about medications or symptoms.
+        </div>
+
+      </div>
+
+      <!-- INPUT AREA -->
+      <form id="chatForm" class="chat-input-area">
+
+        <input
+          type="text"
+          id="medicineInput"
+          name="medicineInput"
+          placeholder="Ask about a medicine..."
+          autocomplete="off"
+        >
+
+        <button type="submit">
+          Send
+        </button>
+
+      </form>
+
+    </div>
 
   </div>
 
@@ -46,32 +68,93 @@
 
 </div>
 
+<!-- JAVASCRIPT -->
 <script>
 
-  document.getElementById('medicineForm').addEventListener('submit', async function(e){
-    
-    //Prevents loading the Page
-    e.preventDefault();
+  const chatForm = document.getElementById("chatForm");
+  const chatBox = document.getElementById("chatBox");
+  const medicineInput = document.getElementById("medicineInput");
 
-    const medicine = document.getElementById('medicineInput').value;
-    
-    //Get the information from the backend
-    const res = await fetch('/input', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ medicineInput: medicine })
+  chatForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const message = medicineInput.value.trim();
+
+    if(message === "") return;
+
+    // USER MESSAGE
+    const userMessage = document.createElement("div");
+    userMessage.classList.add("message", "user-message");
+    userMessage.innerText = message;
+
+    chatBox.appendChild(userMessage);
+
+    // CLEAR INPUT
+    medicineInput.value = "";
+
+    // AUTO SCROLL
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    // TYPING MESSAGE
+    const typingMessage = document.createElement("div");
+    typingMessage.classList.add("message", "bot-message");
+
+    typingMessage.innerText = "Typing...";
+
+    chatBox.appendChild(typingMessage);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+
+      // SEND TO SERVER
+      const response = await fetch("/input", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          medicineInput: message
+        })
+
+      });
+
+      const data = await response.json();
+
+      // REMOVE TYPING
+      typingMessage.remove();
+
+      // BOT RESPONSE
+      const botMessage = document.createElement("div");
+
+      botMessage.classList.add("message", "bot-message");
+
+      botMessage.innerText = data.reply || "No response.";
+
+      chatBox.appendChild(botMessage);
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+    }
+
+    catch(error) {
+
+      typingMessage.remove();
+
+      const errorMessage = document.createElement("div");
+
+      errorMessage.classList.add("message", "bot-message");
+
+      errorMessage.innerText = "Something went wrong.";
+
+      chatBox.appendChild(errorMessage);
+
+    }
+
   });
-
-  //Get the medicine JSON output from the AI
-  const data = await res.json();
-  console.log(data);
-
-  //Use getElementByID to fill in the frontend. The console shows
-  //the information to show the user
-
-  document.getElementById("output").textContent = data.usedFor[1];
-
-  });
-
 
 </script>

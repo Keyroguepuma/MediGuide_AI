@@ -32,7 +32,7 @@ Medicine: ${medicine}
     input: prompt,
   });
 
-  const text = response.output_text;
+ const text = response.output[0].content[0].text;
 
   try {
     return JSON.parse(text);
