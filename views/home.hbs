@@ -87,9 +87,20 @@ let chatStarted = false;
 
 newChat.addEventListener("click", async function(event){
 
+
   console.log("The new chat button has been clicked");
 
-  window.location.reload();
+  if(chatStarted){
+
+    document.querySelector(".container").classList.remove("chat-fullscreen");
+
+    chatStarted = false;
+    
+    chatBox.innerHTML = `
+        <div class="message bot-message">
+          Hello! Ask me anything about medications or symptoms.
+        </div> `
+  }
 })
 
 
