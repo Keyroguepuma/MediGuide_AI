@@ -74,35 +74,36 @@ app.post('/input', async (req, res) => {
       });
     }
 
-    // 5. Detect medicine name from input
-    const medicineList = [
-      "tylenol", "acetaminophen",
-      "ibuprofen", "advil", "motrin",
-      "aspirin", "aleve", "naproxen",
-      "benadryl", "diphenhydramine",
-      "zyrtec", "cetirizine",
-      "claritin", "loratadine",
-      "amoxicillin", "metformin",
-      "atorvastatin", "lisinopril",
-      "omeprazole", "tums", "pepto"
-    ];
+    // // 5. Detect medicine name from input
+    // const medicineList = [
+    //   "tylenol", "acetaminophen",
+    //   "ibuprofen", "advil", "motrin",
+    //   "aspirin", "aleve", "naproxen",
+    //   "benadryl", "diphenhydramine",
+    //   "zyrtec", "cetirizine",
+    //   "claritin", "loratadine",
+    //   "amoxicillin", "metformin",
+    //   "atorvastatin", "lisinopril",
+    //   "omeprazole", "tums", "pepto"
+    // ];
 
-    const detectedMedicine = medicineList.find(med =>
-      lowerInput.includes(med)
-    );
+    // const detectedMedicine = medicineList.find(med =>
+    //   lowerInput.includes(med)
+    // );
 
-    // 6. If no medicine found → reject
-    if (!detectedMedicine) {
-      return res.status(400).json({
-        error: "Please enter a valid medicine name or a sentence containing one."
-      });
-    }
+    // // 6. If no medicine found → reject
+    // if (!detectedMedicine) {
+    //   return res.status(400).json({
+    //     error: "Please enter a valid medicine name or a sentence containing one."
+    //   });
+    // }
 
-    console.log("User input:", cleanedInput);
-    console.log("Detected medicine:", detectedMedicine);
+    // console.log("User input:", cleanedInput);
+    // console.log("Detected medicine:", detectedMedicine);
 
     // 7. Call AI ONLY with clean medicine name
-    const result = await getMedicineInfo(detectedMedicine);
+    // const result = await getMedicineInfo(detectedMedicine);
+    const result = await getMedicineInfo(userInput);
 
     //Send result to frontend
     // res.json(result); - This line was creating the limited chat
