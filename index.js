@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 app.post('/input', async (req, res) => {
   try {
     // Get user input
-    const userInput = req.body.medicineInput;
+    let userInput = req.body.medicineInput;
 
     // 1. Check empty input
     if (!userInput || userInput.trim() === "") {
@@ -74,32 +74,46 @@ app.post('/input', async (req, res) => {
       });
     }
 
-    // // 5. Detect medicine name from input
-    // const medicineList = [
-    //   "tylenol", "acetaminophen",
-    //   "ibuprofen", "advil", "motrin",
-    //   "aspirin", "aleve", "naproxen",
-    //   "benadryl", "diphenhydramine",
-    //   "zyrtec", "cetirizine",
-    //   "claritin", "loratadine",
-    //   "amoxicillin", "metformin",
-    //   "atorvastatin", "lisinopril",
-    //   "omeprazole", "tums", "pepto"
-    // ];
+    // 5. Detect medicine name from input
+    const medicineList = [
+      "tylenol", "acetaminophen",
+      "ibuprofen", "advil", "motrin",
+      "aspirin", "aleve", "naproxen",
+      "benadryl", "diphenhydramine",
+      "zyrtec", "cetirizine",
+      "claritin", "loratadine",
+      "amoxicillin", "metformin",
+      "atorvastatin", "lisinopril",
+      "omeprazole", "tums", "pepto"
+    ];
 
-    // const detectedMedicine = medicineList.find(med =>
-    //   lowerInput.includes(med)
-    // );
+    const detectedMedicine = medicineList.find(med =>
+      lowerInput.includes(med)
+    );
 
-    // // 6. If no medicine found → reject
-    // if (!detectedMedicine) {
-    //   return res.status(400).json({
-    //     error: "Please enter a valid medicine name or a sentence containing one."
-    //   });
-    // }
+    // 6. Call the API if medicine found
+    if(detectedMedicine){
 
-    // console.log("User input:", cleanedInput);
-    // console.log("Detected medicine:", detectedMedicine);
+      const url = `https://api.fda.gov/drug/label.json?search=openfda.brand_name:${detectedMedicine}&limit=1`;
+
+
+      fetch(url)
+      .then(res => res.json())
+      
+      .then(data => {
+
+      userInput = userInput + JSON.stringify(data.result[0]);})
+      
+      .catch(error => {
+        console.log(error);
+      })
+
+
+    }
+
+    console.log(userInput);
+
+   
 
     // 7. Call AI ONLY with clean medicine name
     // const result = await getMedicineInfo(detectedMedicine);

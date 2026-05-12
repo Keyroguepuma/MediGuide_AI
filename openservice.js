@@ -17,7 +17,8 @@ Do not provide dosage instructions beyond general caution.
 
 give the response as a chatbot
 
-if not medicine was found or it doesn't relate to medicine then respond with No Response
+if no medicine was found or it doesn't relate to medicine then respond with No Response
+
 
 Medicine: ${medicine}
 `;
